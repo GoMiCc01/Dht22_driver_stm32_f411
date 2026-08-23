@@ -93,12 +93,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start(&htim1);
 
-  dht_sensor_t dht =
-  {
-		  .data_pin = DATA_Pin,
-		  .data_port = DATA_GPIO_Port
-  };
+  dht_sensor_t dht;
   HAL_Delay(3000);
+  dht_init(&dht, DATA_GPIO_Port, DATA_Pin, &htim1);
   int16_t temperature = 0;
   uint16_t humidity = 0;
   /* USER CODE END 2 */
@@ -107,9 +104,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	read_dht_data(&dht);
-	temperature = get_Temperature(&dht);
-	humidity = dht.humidity;
+	if(DHT_OK == read_dht_data(&dht))
+	{
+		temperature = get_Temperature(&dht);
+		humidity = dht.humidity;
+	}
 	HAL_Delay(10000);
     /* USER CODE END WHILE */
 
