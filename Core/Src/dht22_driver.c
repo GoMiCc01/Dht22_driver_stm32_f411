@@ -1,7 +1,11 @@
 #include "main.h"
 #include "dht22_driver.h"
 
-
+/**
+ * @brief Delay function, uses timer to measure microseconds
+ * @param us , amount of microseconds
+ * @param dht , pointer to the sensor instance
+ */
 static void delay_us(const uint16_t us , dht_sensor_t* dht)
 {
 	uint16_t start = __HAL_TIM_GetCounter(dht->htim);
